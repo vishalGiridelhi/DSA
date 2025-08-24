@@ -1,0 +1,31 @@
+//https://leetcode.com/problems/subarrays-with-k-different-integers/
+class Solution {
+    public int subarraysWithKDistinct(int[] nums, int k) {
+        return atMost(nums, k)-atMost(nums, k-1);
+    }
+
+    public static int atMost(int[] nums, int k) {
+        int i =0;
+        int j =0;
+        int maxl =0;
+        Map<Integer, Integer> map = new HashMap<>();
+        while(j<nums.length){
+
+            map.put(nums[j], map.getOrDefault(nums[j],0)+1);
+
+            if(map.size()>k){
+                while(map.size()>k){
+                    int b = nums[i];
+                    map.put(b, map.get(b)-1);
+                    if(map.get(b)<=0){
+                        map.remove(b);
+                    }
+                    i++;
+                }
+            }
+            maxl = maxl + j-i+1;
+            j++;
+        }
+        return maxl;
+    }
+}
